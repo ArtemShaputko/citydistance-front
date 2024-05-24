@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CityCard from '../city/CityCard';
 import { Button, Box, TextField, Typography, Grid, Pagination } from '@mui/material';
 import Background from '../Background';
+import API_URL from '../../config';
 
 const GetLikedCities = () => {
     const [cities, setCities] = useState([]);
@@ -20,7 +21,7 @@ const GetLikedCities = () => {
             return;
         }
         try {
-            const url = new URL('http://localhost:8080/api/v1/user/liked_cities');
+            const url = new URL(`${API_URL}/api/v1/user/liked_cities`);
             url.search = new URLSearchParams({ nickname: nickname }).toString();
             const response = await fetch(url);
             if (!response.ok) {
@@ -38,7 +39,7 @@ const GetLikedCities = () => {
 
     const handlePageChange = async (event, value) => {
         console.log('page: ', page, ' value: ', value);
-        setPage(value-1);
+        setPage(value - 1);
         setError('');
         setIdError(false);
         if (!nickname) {
@@ -46,8 +47,8 @@ const GetLikedCities = () => {
             return;
         }
         try {
-            const url = new URL('http://localhost:8080/api/v1/user/liked_cities');
-            url.search = new URLSearchParams({ nickname: nickname, page_number: value-1 }).toString();
+            const url = new URL(`${API_URL}/api/v1/user/liked_cities`);
+            url.search = new URLSearchParams({ nickname: nickname, page_number: value - 1 }).toString();
             const response = await fetch(url);
             console.log('here');
             if (!response.ok) {
@@ -57,7 +58,7 @@ const GetLikedCities = () => {
             }
             const citiesData = await response.json();
             setCities(citiesData);
-            if(citiesData.length === 0) {
+            if (citiesData.length === 0) {
                 setError('No liked cities found');
             }
         } catch (error) {
@@ -91,12 +92,12 @@ const GetLikedCities = () => {
                 <Box sx={{ '& > :not(:last-child)': { marginBottom: '20px' } }}>
                     {cities.map((city, index) => <CityCard key={index} city={city} />)}
                 </Box>
-                    {cities.length > 0 && (
-                        <Grid container justifyContent="center" sx={{ marginTop: '20px' }}>
-                            <Pagination count={10} page={page+1} onChange={handlePageChange} />
-                        </Grid>
-                    )}
-                </Box>
+                {cities.length > 0 && (
+                    <Grid container justifyContent="center" sx={{ marginTop: '20px' }}>
+                        <Pagination count={10} page={page + 1} onChange={handlePageChange} />
+                    </Grid>
+                )}
+            </Box>
         </Background>
     );
 };

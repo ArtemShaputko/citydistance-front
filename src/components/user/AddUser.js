@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Typography, Button } from '@mui/material';
 import Background from '../Background.js';
+import API_URL from '../../config.js';
 
 export default function AddUser() {
     const [name, setName] = React.useState('');
@@ -27,7 +28,7 @@ export default function AddUser() {
         const user = { name, surname, nickname, email };
         console.log(user);
         try {
-            const response = await fetch("http://localhost:8080/api/v1/user/add_user", {
+            const response = await fetch(`${API_URL}/api/v1/user/add_user`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(user)
@@ -46,15 +47,15 @@ export default function AddUser() {
                 const message = data.message;
                 setMessage(message);
                 setIsError(true);
-                setErrors({});  
+                setErrors({});
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             else {
                 console.log(responseText);
                 setMessage('User saved successfully!');
-                setIsError(false); 
-                setErrors({});  
-            }  
+                setIsError(false);
+                setErrors({});
+            }
         } catch (error) {
             console.log('Fetch error: ', error);
         }
@@ -81,7 +82,7 @@ export default function AddUser() {
                 <TextField
                     required
                     error={!!errors.name}
-                    helperText={errors.name}    
+                    helperText={errors.name}
                     id="name"
                     label="Name"
                     value={name}
@@ -123,12 +124,12 @@ export default function AddUser() {
                 }}
             >
                 <Button variant="contained" onClick={handleClick} size='large'>Send</Button>
-                <Button 
-                    variant="contained" 
-                    onClick={resetForm} size='large' 
+                <Button
+                    variant="contained"
+                    onClick={resetForm} size='large'
                     style={{ backgroundColor: 'darkblue', color: 'white' }}
                 >
-                        Reset
+                    Reset
                 </Button>
             </Box>
             <Box
@@ -138,7 +139,7 @@ export default function AddUser() {
                     marginTop: '20px',
                 }}
             >
-                <Typography variant="body1" style={{ color: isError ? 'red' : 'black' }}>{message}</Typography> 
+                <Typography variant="body1" style={{ color: isError ? 'red' : 'black' }}>{message}</Typography>
             </Box>
         </Background>
     );

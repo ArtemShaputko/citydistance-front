@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import Background from '../Background';
+import API_URL from '../../config';
 
 export default function DeleteUser() {
     const [id, setId] = useState('');
@@ -11,7 +12,7 @@ export default function DeleteUser() {
     const handleClick = async (e) => {
         e.preventDefault();
         try {
-            const url = new URL("http://localhost:8080/api/v1/user/remove");
+            const url = new URL(`${API_URL}/api/v1/user/remove`);
             url.search = new URLSearchParams({ id }).toString();
 
             const response = await fetch(url, {
@@ -64,7 +65,7 @@ export default function DeleteUser() {
                 <TextField
                     required
                     error={!!errors.id}
-                    helperText={errors.id}    
+                    helperText={errors.id}
                     id="id"
                     label="ID"
                     value={id}

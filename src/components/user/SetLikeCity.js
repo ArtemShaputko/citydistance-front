@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import Background from '../Background';
+import API_URL from '../../config';
 
 export default function SetLikeCity() {
     const [userId, setUserId] = useState('');
@@ -13,7 +14,7 @@ export default function SetLikeCity() {
         e.preventDefault();
         try {
             const url = new URL(address);
-            url.search = new URLSearchParams({ user_id: userId, city_id : cityId }).toString();
+            url.search = new URLSearchParams({ user_id: userId, city_id: cityId }).toString();
 
             const response = await fetch(url, {
                 method: "PUT",
@@ -27,7 +28,7 @@ export default function SetLikeCity() {
                 setErrors(data.fieldErrors);
                 setMessage('Wrong data');
             } else if (response.ok) {
-                if(type === true) setMessage('City liked successfully');
+                if (type === true) setMessage('City liked successfully');
                 else setMessage('City unliked successfully');
                 setErrors({});
                 setIsError(false);
@@ -66,7 +67,7 @@ export default function SetLikeCity() {
                 <TextField
                     required
                     error={!!errors.id}
-                    helperText={errors.id}    
+                    helperText={errors.id}
                     id="userId"
                     label="User ID"
                     value={userId}
@@ -89,7 +90,7 @@ export default function SetLikeCity() {
                 <TextField
                     required
                     error={!!errors.city_id}
-                    helperText={errors.city_id}    
+                    helperText={errors.city_id}
                     id="cityID"
                     label="City ID"
                     value={cityId}
@@ -117,17 +118,17 @@ export default function SetLikeCity() {
                         gap: '20px',
                     }}
                 >
-                    <Button 
+                    <Button
                         variant="contained"
-                        onClick={(e) => handleClick(true, "http://localhost:8080/api/v1/user/like", e)} 
+                        onClick={(e) => handleClick(true, `${API_URL}/api/v1/user/like`, e)}
                         size='large'
                     >
                         Like
                     </Button>
-                    <Button 
-                        variant="contained" 
-                        onClick={(e) => handleClick(false, "http://localhost:8080/api/v1/user/remove_like", e)} 
-                        size='large' 
+                    <Button
+                        variant="contained"
+                        onClick={(e) => handleClick(false, `${API_URL} /api/v1/user/remove_like`, e)}
+                        size='large'
                         style={{ backgroundColor: 'red', color: 'white' }}
                     >
                         Remove Like

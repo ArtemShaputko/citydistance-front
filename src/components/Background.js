@@ -3,9 +3,9 @@ import React from 'react';
 
 function Background({ children }) {
     const paperStyle = {
-        Padding:'50px',
-        width:800,
-        margin:'20px auto',
+        Padding: '50px',
+        width: 800,
+        margin: '20px auto',
         paddingLeft: '30px', // Добавьте отступ слева
         paddingRight: '30px', // Добавьте отступ справа
     }

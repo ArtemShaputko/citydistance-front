@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CityCard from './CityCard';
 import { Button, Box, TextField, Typography, Grid, Pagination } from '@mui/material';
 import Background from '../Background';
+import API_URL from '../../config';
 
 const GetCity = () => {
     const [cities, setCities] = useState([]);
@@ -20,7 +21,7 @@ const GetCity = () => {
             return;
         }
         try {
-            const url = new URL('http://localhost:8080/api/v1/city/find_by_name');
+            const url = new URL(`${API_URL}/api/v1/city/find_by_name`);
             url.search = new URLSearchParams({ name }).toString();
             setCurrentUrl(url);
 
@@ -42,7 +43,7 @@ const GetCity = () => {
         setError('');
         setNameError(false);
         try {
-            const url = new URL('http://localhost:8080/api/v1/city/all');
+            const url = new URL(`${API_URL}/api/v1/city/all`);
             url.search = new URLSearchParams().toString();
             setCurrentUrl(url);
             const response = await fetch(url);
@@ -60,14 +61,14 @@ const GetCity = () => {
 
     const handlePageChange = async (event, value, properUrl) => {
         console.log('page: ', page, ' value: ', value);
-        setPage(value-1);
+        setPage(value - 1);
         setError('');
         setNameError(false);
         try {
             const url = new URL(properUrl);
             let params = new URLSearchParams(url.search);
-            params.append("page_number", value-1);
-            url.search=params.toString();
+            params.append("page_number", value - 1);
+            url.search = params.toString();
             const response = await fetch(url);
             console.log(url);
             if (!response.ok) {
@@ -111,12 +112,12 @@ const GetCity = () => {
                 <Box sx={{ '& > :not(:last-child)': { marginBottom: '20px' } }}>
                     {cities.map((city, index) => <CityCard key={index} city={city} />)}
                 </Box>
-                    {currentUrl !== null && (
-                        <Grid container justifyContent="center" sx={{ marginTop: '20px' }}>
-                            <Pagination count={10} page={page+1} onChange={(e, value) => handlePageChange(e, value, currentUrl)} />
-                        </Grid>
-                    )}
-                </Box>
+                {currentUrl !== null && (
+                    <Grid container justifyContent="center" sx={{ marginTop: '20px' }}>
+                        <Pagination count={10} page={page + 1} onChange={(e, value) => handlePageChange(e, value, currentUrl)} />
+                    </Grid>
+                )}
+            </Box>
         </Background>
     );
 };

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Typography, Button } from '@mui/material';
 import Background from '../Background.js';
+import API_URL from '../../config.js';
 
 export default function UpdateUser() {
     const [id, setId] = React.useState('');
@@ -28,7 +29,7 @@ export default function UpdateUser() {
         const user = { name, surname, nickname, email };
         console.log(user);
         try {
-            const url = new URL("http://localhost:8080/api/v1/user/update");
+            const url = new URL(`${API_URL}/api/v1/user/update`);
             url.search = new URLSearchParams({ id }).toString();
 
             const response = await fetch(url, {
@@ -50,14 +51,14 @@ export default function UpdateUser() {
                 const message = data.message;
                 setMessage(message);
                 setIsError(true);
-                setErrors({});  
+                setErrors({});
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             else {
                 console.log(responseText);
                 setMessage('User updated successfully!');
-                setIsError(false); 
-                setErrors({});  
+                setIsError(false);
+                setErrors({});
             }
         } catch (error) {
             console.log('Fetch error: ', error);
@@ -85,7 +86,7 @@ export default function UpdateUser() {
                 <TextField
                     required
                     error={!!errors.id}
-                    helperText={errors.id}    
+                    helperText={errors.id}
                     id="id"
                     label="ID"
                     value={id}
@@ -107,7 +108,7 @@ export default function UpdateUser() {
                 />
                 <TextField
                     error={!!errors.name}
-                    helperText={errors.name}    
+                    helperText={errors.name}
                     id="name"
                     label="Name"
                     value={name}
@@ -147,12 +148,12 @@ export default function UpdateUser() {
                 }}
             >
                 <Button variant="contained" onClick={handleClick} size='large'>Send</Button>
-                <Button 
-                    variant="contained" 
-                    onClick={resetForm} size='large' 
+                <Button
+                    variant="contained"
+                    onClick={resetForm} size='large'
                     style={{ backgroundColor: 'darkblue', color: 'white' }}
                 >
-                        Reset
+                    Reset
                 </Button>
             </Box>
             <Box
@@ -162,7 +163,7 @@ export default function UpdateUser() {
                     marginTop: '20px',
                 }}
             >
-                <Typography variant="body1" style={{ color: isError ? 'red' : 'black' }}>{message}</Typography> 
+                <Typography variant="body1" style={{ color: isError ? 'red' : 'black' }}>{message}</Typography>
             </Box>
         </Background>
     );

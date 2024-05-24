@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Box, TextField, Button } from '@mui/material';
+import API_URL from '../../config';
 
 const CityCard = ({ city }) => {
     const { id, name, country, lon, lat } = city;
@@ -8,7 +9,7 @@ const CityCard = ({ city }) => {
 
     const handleLike = async () => {
         try {
-            const url = new URL('http://localhost:8080/api/v1/user/find_by_nickname');
+            const url = new URL(`${API_URL}/api/v1/user/find_by_nickname`);
             url.search = new URLSearchParams({ nickname }).toString();
 
             const response = await fetch(url);
@@ -20,7 +21,7 @@ const CityCard = ({ city }) => {
             const userData = await response.json();
             const userId = userData.id;
 
-            const likeUrl = new URL('http://localhost:8080/api/v1/user/like');
+            const likeUrl = new URL(`${API_URL}/api/v1/user/like`);
             likeUrl.search = new URLSearchParams({ user_id: userId, city_id: id }).toString();
 
             const likeResponse = await fetch(likeUrl, { method: 'PUT' });
@@ -36,7 +37,7 @@ const CityCard = ({ city }) => {
 
     const handleRemoveLike = async () => {
         try {
-            const url = new URL('http://localhost:8080/api/v1/user/find_by_nickname');
+            const url = new URL(`${API_URL}/api/v1/user/find_by_nickname`);
             url.search = new URLSearchParams({ nickname }).toString();
 
             const response = await fetch(url);
@@ -48,7 +49,7 @@ const CityCard = ({ city }) => {
             const userData = await response.json();
             const userId = userData.id;
 
-            const removeLikeUrl = new URL('http://localhost:8080/api/v1/user/remove_like');
+            const removeLikeUrl = new URL(`${API_URL}/api/v1/user/remove_like`);
             removeLikeUrl.search = new URLSearchParams({ user_id: userId, city_id: id }).toString();
 
             const removeLikeResponse = await fetch(removeLikeUrl, { method: 'PUT' });
@@ -63,7 +64,7 @@ const CityCard = ({ city }) => {
     };
 
     return (
-        <Card sx={{ minWidth: 275}}>
+        <Card sx={{ minWidth: 275 }}>
             <CardContent>
                 <Typography variant="h7" component="div" sx={{ padding: '10px', marginBottom: '10px' }}>
                     ID: {id}
