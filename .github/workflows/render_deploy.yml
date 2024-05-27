@@ -16,7 +16,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm start
+      - run: npm ci
+      - run: npm build --if-present
+      - run: npm test
 
       - name: Deploy
         run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
